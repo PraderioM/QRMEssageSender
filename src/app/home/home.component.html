@@ -1,0 +1,122 @@
+<ActionBar class="action-bar">
+    <StackLayout orientation="horizontal"
+                 ios:horizontalAlignment="center" android:horizontalAlignment="center"
+                 [backgroundColor]="unselectedColor">
+        <Button [backgroundColor]="scannerSelected ? selectedColor : unselectedColor"
+                borderWidth="0"
+                (tap)="selectScanner()" text="Scan" class="header-button"></Button>
+        <Button [backgroundColor]="generatorSelected ? selectedColor : unselectedColor"
+                borderWidth="0"
+                (tap)="selectGenerator()" text="Generate" class="header-button"></Button>
+        <Button [backgroundColor]="parametersSelected ? selectedColor : unselectedColor"
+                borderWidth="0"
+                (tap)="selectParameters()" text="Settings" class="header-button"></Button>
+    </StackLayout>
+</ActionBar>
+
+
+<!--region scanner-->
+<GridLayout *ngIf="scannerSelected" class="page">
+    <!-- Add your page content here -->
+    <Button *ngIf="!verifyingSettings" (tap)="onContinuousScan()" text="Scan qr code"></Button>
+    <Label *ngIf="verifyingSettings" text="Verifying settings. Please wait."
+           class="vertical-center center email-label big-label"> </Label>
+</GridLayout>
+<!--endregion-->
+
+<!--region generator-->
+<StackLayout *ngIf="generatorSelected">
+    <!--region email setting-->
+    <StackLayout  class="page">
+        <TextField [hint]="'Enter new e-mail'"
+                   autocorrect="false"
+                   [text]="newEmail"
+                   (textChange)="changeNewEmail($event)"
+                   class="input input-border">
+        </TextField>
+    </StackLayout>
+    <StackLayout *ngFor="let email of emailList; let i = index" class="page">
+        <StackLayout class="center email-layout">
+            <Label [text]="'email ' + (i+1) + ': ' + email" class="vertical-center left email-label"> </Label>
+            <Button class="remove-button vertical-center right" text="-" (tap)="removeEmail(i)"></Button>
+        </StackLayout>
+    </StackLayout>
+
+    <StackLayout>
+        <Button text="Add e-mail" (tap)="addEmail()" class="btn btn-primary"></Button>
+    </StackLayout>
+    <!--endregion-->
+
+    <!-- region subject -->
+
+
+    <StackLayout>
+    <TextField
+            autocorrect="false"
+            [text]="emailSubject"
+            [hint]="'Enter e-mail subject'"
+            (textChange)="changeEmailSubject($event)"
+            class="input input-border"></TextField>
+    </StackLayout>>
+    <!-- endregion -->
+
+    <!-- region email   -->
+    <StackLayout>
+        <TextField [hint]="'Enter e-mail message'"
+                   autocorrect="false"
+                   [text]="message"
+                   (textChange)="changeMessage($event)"
+                   class="input input-border">
+    </TextField>
+    </StackLayout>
+    <!--endregion-->
+
+
+    <!--qr code view-->
+    <StackLayout>
+        <Button text="Generate QR" (tap)="generateQR()" class="btn btn-primary"></Button>
+    </StackLayout>
+    <StackLayout>
+        <Image *ngIf="imageExists" [src]="qrImage"
+               (tap)="saveImage(qrImage, 'QRCode', 'png')"></Image>
+    </StackLayout>
+    <!--endregion-->
+</StackLayout>
+<!--endregion-->
+
+<!--region Settings-->
+<GridLayout *ngIf="parametersSelected">
+    <StackLayout class="page">
+        <Label text="API key" class="vertical-center left email-label"> </Label>
+        <TextField
+                autocorrect="false"
+                [text]="credentials"
+                hint="YOUR_MAILGUN_API_KEY"
+                (textChange)="changeCredentials($event)"
+                class="input input-border"></TextField>
+
+        <Label text="API base URL" class="vertical-center left email-label"> </Label>
+        <TextField
+                autocorrect="false"
+                [text]="domain"
+                hint="YOUR_MAILGUN_DOMAIN_BASE_URL"
+                (textChange)="changeDomain($event)"
+                class="input input-border"></TextField>
+
+        <Label text="Source e-mail" class="vertical-center left email-label"> </Label>
+        <TextField
+                autocorrect="false"
+                [text]="sourceEmail"
+                hint="UserName@mailService.com"
+                (textChange)="changeSourceMail($event)"
+                class="input input-border"></TextField>6
+        <Label text="Min time between scans: {{getResetScanningHoursString()}}" class="vertical-center left email-label"> </Label>
+        <Slider row="1" col="1" value="{{getResetScanningHours()}}"
+                (valueChange)="changeResetScanningTime($event)" minValue="0" maxValue="24"></Slider>
+        <Button text="Save settings" (tap)="saveSettings()" class="btn btn-primary"></Button>
+        <Label *ngIf="verifyingSettings" text="Verifying settings. Please wait."
+               class="vertical-center center email-label big-label"> </Label>
+    </StackLayout>
+
+</GridLayout>
+<!--endregion-->

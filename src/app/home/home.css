@@ -1,0 +1,45 @@
+.left{
+    horizontal-align:left;
+}
+.center{
+    horizontal-align:center;
+}
+.right{
+    horizontal-align:right;
+}
+
+.vertical-center{
+    vertical-align: center;
+}
+
+
+.email-layout {
+    orientation: horizontal;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.email-label{
+    color: #000000;
+    margin: 0px 50px;
+}
+
+.big-label {
+    font-size: 20%;
+}
+
+.remove-button{
+    color: red;
+    text-align: center;
+    padding-top: 20px;
+
+    margin: 0px 50px;
+
+    width: 100px;
+    height: 100px;
+}
+
+
+.header-button{
+    width: 33%;
+}
