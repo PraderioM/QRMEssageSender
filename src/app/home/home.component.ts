@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http"
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { Slider } from "tns-core-modules/ui/slider";
-import {ImageSource, fromBase64} from "tns-core-modules/image-source";
+import { ImageSource, fromBase64 } from "tns-core-modules/image-source";
 import * as fileSystemModule from "tns-core-modules/file-system";
 import { isAndroid, isIOS } from "tns-core-modules/platform";
 import * as appSettings from "tns-core-modules/application-settings";
