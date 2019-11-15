@@ -353,16 +353,7 @@ Please add it to the e-mail list or remove it entirely.`);
         console.log(message);
 
         // Convert credentials to base 64.
-        let authorization: string;
-        try {
-            if (utf8.decode(base64.decode(this.credentials)).substr(0, 4) == 'api:') {
-                authorization = this.credentials;
-            } else {
-                authorization = base64.encode(utf8.encode('api:' + this.credentials));
-            }
-        } catch (error) {
-            authorization = base64.encode(utf8.encode('api:' + this.credentials));
-        }
+        let authorization = this.getAuthorization();
 
         let success: boolean = true;
         for (let i = 0; i < emailList.length; i++) {
@@ -459,16 +450,7 @@ Please add it to the e-mail list or remove it entirely.`);
         // Convert credentials to base 64.
         this.verifyingSettings = true;
         this.settingsVerified = false;
-        let authorization: string;
-        try {
-            if (utf8.decode(base64.decode(this.credentials)).substr(0, 4) == 'api:') {
-                authorization = this.credentials;
-            } else {
-                authorization = base64.encode(utf8.encode('api:' + this.credentials));
-            }
-        } catch (error) {
-            authorization = base64.encode(utf8.encode('api:' + this.credentials));
-        }
+        let authorization = this.getAuthorization();
 
         console.log(`Verifying settings.`);
         let ret;
@@ -485,6 +467,7 @@ Please add it to the e-mail list or remove it entirely.`);
                 }
             ).toPromise();
         } catch (err) {
+            console.log(err);
             this.verifyingSettings = false;
             return false;
         }
@@ -501,6 +484,20 @@ Please add it to the e-mail list or remove it entirely.`);
             this.verifyingSettings = false;
             return false;
         }
+    }
+
+    getAuthorization() {
+        let authorization: string;
+        try {
+            if (utf8.decode(base64.decode(this.credentials)).substr(0, 4) == 'api:') {
+                authorization = this.credentials;
+            } else {
+                authorization = base64.encode(utf8.encode('api:' + this.credentials));
+            }
+        } catch (error) {
+            authorization = base64.encode(utf8.encode('api:' + this.credentials));
+        }
+        return authorization;
     }
     // endregion.
 
